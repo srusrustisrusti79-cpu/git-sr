@@ -1,0 +1,83 @@
+
+
+ CREATE OR REPLACE TRIGGER 
+ salarydifferencetrigger22
+ AFTER INSERT OR UPDATE OR DELETE ON CUSTOMERS20
+ FOR EACH ROW DECLARE v_old_salary CUSTOMERS20.SALARY%TYPE;
+ v_new_salary
+ CUSTOMERS20.SALARY%TYPE;
+v_salary_diff
+ CUSTOMERS20.SALARY%TYPE;
+BEGIN
+IF INSERTING THEN 
+v_old_salary:=0;
+ v_new_salary:=:NEW.SALARY;
+
+
+
+ELSIF UPDATING THEN
+v_old_salary:=:OLD SALARY;
+v_new_salary:=:NEW.SALARY;
+ELSIF DELETING THEN 
+v_old_salary:=:OLD SALARY;
+v_new_salary:=:0;
+END IF;v_salary_diff:=v_new_salary-v_old_salary;
+DBMS_OUTPUT_LINE('Salary differenc:'|| v_salary_diff);
+END;
+
+CREATE TRIGGER after_updatesalary22
+AFTER UPDATE ON CUSTOMERS20
+FOR EACH ROW 
+BEGIN
+DECLARE old_salary DECIMAL(10,2);
+DECLARE new_salary DECIMAL(10,2);
+SET old_salary=OLD.SALARY;
+SET new_salary=NEW.SALARY;
+SET@my salarydifferencetrigger22=CONCAT(salary difference after update is',NEW.SALARY-OLD.SALARY);
+END;
+
+
+
+
+CREATE TRIGGER after_deletesalary22
+AFTER DELETE ON CUSTOMERS20
+FOR EACH ROW 
+BEGIN
+SET@my salary22=CONCAT(salary deleted is',OLD.SALARY);
+END;
+
+
+
+
+
+ select * from CUSTOMERS20
+
+UPDATE CUSTOMERS20
+SET SALARY=6000
+WHERE ID=01;
+
+
+ DELETE FROM  CUSTOMERS20
+WHERE ID=1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
